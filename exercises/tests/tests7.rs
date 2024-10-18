@@ -33,9 +33,6 @@
 //
 // Execute `rustlings hint tests7` or use the `hint` watch subcommand for a
 // hint.
-
-// I AM NOT DONE
-
 fn main() {}
 
 #[cfg(test)]
@@ -44,6 +41,7 @@ mod tests {
 
     #[test]
     fn test_success() {
+        
         let timestamp = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap()
