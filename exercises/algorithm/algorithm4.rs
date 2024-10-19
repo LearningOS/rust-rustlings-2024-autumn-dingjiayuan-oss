@@ -3,7 +3,6 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -37,6 +36,29 @@ where
             right: None,
         }
     }
+    
+    // Insert a value into the BST
+    fn insert(&mut self, value: T) {
+        match value.cmp(&self.value) {
+            Ordering::Less => {
+                if let Some(left) = &mut self.left {
+                    left.insert(value);
+                } else {
+                    self.left = Some(Box::new(TreeNode::new(value)));
+                }
+            }
+            Ordering::Greater => {
+                if let Some(right) = &mut self.right {
+                    right.insert(value);
+                } else {
+                    self.right = Some(Box::new(TreeNode::new(value)));
+                }
+            }
+            Ordering::Equal => {
+                
+            }
+        }
+    }
 }
 
 impl<T> BinarySearchTree<T>
@@ -45,30 +67,37 @@ where
 {
 
     fn new() -> Self {
-        BinarySearchTree { root: None }
+        BinarySearchTree {root:None}
     }
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        //TODO
+        match &mut self.root {
+            Some(node) => node.insert(value),
+            None => {
+                self.root = Some(Box::new(TreeNode::new(value)));
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
-        //TODO
-        true
+        self.search_helper(&self.root,value)
+    }
+    fn search_helper(&self,node:&Option<Box<TreeNode<T>>>, value:T) -> bool {
+        match node {
+            Some(n) => {
+                match value.cmp(&n.value) {
+                    Ordering::Less => self.search_helper(&n.left,value),
+                    Ordering::Greater => self.search_helper(&n.right, value),
+                    Ordering::Equal => true,
+                }
+            }
+            None =>false,
+        }
     }
 }
 
-impl<T> TreeNode<T>
-where
-    T: Ord,
-{
-    // Insert a node into the tree
-    fn insert(&mut self, value: T) {
-        //TODO
-    }
-}
 
 
 #[cfg(test)]
